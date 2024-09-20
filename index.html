@@ -1,12 +1,47 @@
-- 👋 Hi, I’m @ZnixoC
-- 👀 I’m interested in ...
-- 🌱 I’m currently learning ...
-- 💞️ I’m looking to collaborate on ...
-- 📫 How to reach me ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
+!DOCTYPE html>  
+<html lang="es">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Fichas de Rol</title>  
+    <style>  
+        body { font-family: Arial, sans-serif; }  
+        .ficha { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }  
+    </style>  
+</head>  
+<body>  
+    <h1>Fichas de Rol</h1>  
+    <form id="fichaForm">  
+        <input type="text" id="nombre" placeholder="Nombre del Personaje" required>  
+        <input type="text" id="jugador" placeholder="Nombre del Jugador" required>  
+        <textarea id="descripcion" placeholder="Descripción" required></textarea>  
+        <button type="submit">Agregar Ficha</button>  
+    </form>  
+    
+    <div id="fichasList"></div>  
 
-<!---
-ZnixoC/ZnixoC is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+    <script>  
+        const form = document.getElementById('fichaForm');  
+        const fichasList = document.getElementById('fichasList');  
+
+        form.addEventListener('submit', function(event) {  
+            event.preventDefault();  
+            
+            const nombre = document.getElementById('nombre').value;  
+            const jugador = document.getElementById('jugador').value;  
+            const descripcion = document.getElementById('descripcion').value;  
+
+            const fichaDiv = document.createElement('div');  
+            fichaDiv.className = 'ficha';  
+            fichaDiv.innerHTML = `  
+                <h3>${nombre} (Jugado por: ${jugador})</h3>  
+                <p>${descripcion}</p>  
+            `;  
+            fichasList.appendChild(fichaDiv);  
+
+            // Limpiar el formulario  
+            form.reset();  
+        });  
+    </script>  
+</body>  
+</html>  
