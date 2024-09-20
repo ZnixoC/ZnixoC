@@ -1,4 +1,4 @@
-!DOCTYPE html>  
+<!DOCTYPE html>  
 <html lang="es">  
 <head>  
     <meta charset="UTF-8">  
@@ -7,6 +7,9 @@
     <style>  
         body { font-family: Arial, sans-serif; }  
         .ficha { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }  
+        form { margin-bottom: 20px; }  
+        input, textarea { display: block; width: 100%; margin-top: 10px; }  
+        button { margin-top: 10px; }  
     </style>  
 </head>  
 <body>  
@@ -24,13 +27,14 @@
         const form = document.getElementById('fichaForm');  
         const fichasList = document.getElementById('fichasList');  
 
-        form.addEventListener('submit', function(event) {  
-            event.preventDefault();  
-            
-            const nombre = document.getElementById('nombre').value;  
-            const jugador = document.getElementById('jugador').value;  
-            const descripcion = document.getElementById('descripcion').value;  
+        // Cargar fichas desde el almacenamiento local  
+        function cargarFichas() {  
+            const fichas = JSON.parse(localStorage.getItem('fichas')) || [];  
+            fichas.forEach(ficha => agregarFichaDOM(ficha.nombre, ficha.jugador, ficha.descripcion));  
+        }  
 
+        // Agregar ficha al DOM  
+        function agregarFichaDOM(nombre, jugador, descripcion) {  
             const fichaDiv = document.createElement('div');  
             fichaDiv.className = 'ficha';  
             fichaDiv.innerHTML = `  
@@ -38,10 +42,33 @@
                 <p>${descripcion}</p>  
             `;  
             fichasList.appendChild(fichaDiv);  
+        }  
+
+        // Manejar el envío del formulario  
+        form.addEventListener('submit', function(event) {  
+            event.preventDefault();  
+            
+            const nombre = document.getElementById('nombre').value;  
+            const jugador = document.getElementById('jugador').value;  
+            const descripcion = document.getElementById('descripcion').value;  
+            
+            // Crear objeto de ficha  
+            const nuevaFicha = { nombre, jugador, descripcion };  
+            
+            // Guardar en el almacenamiento local  
+            const fichas = JSON.parse(localStorage.getItem('fichas')) || [];  
+            fichas.push(nuevaFicha);  
+            localStorage.setItem('fichas', JSON.stringify(fichas));  
+            
+            // Agregar al DOM  
+            agregarFichaDOM(nombre, jugador, descripcion);  
 
             // Limpiar el formulario  
             form.reset();  
         });  
+
+        // Cargar fichas al cargar la página  
+        window.onload = cargarFichas;  
     </script>  
 </body>  
-</html>  
+</html> 
